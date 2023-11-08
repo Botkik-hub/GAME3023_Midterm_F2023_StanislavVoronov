@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace CraftingSystem.Editor
 {
-    [CustomEditor(typeof(Recipe))]
+    [CustomEditor(typeof(RecipeScriptable))]
     public class RecipeEditor : UnityEditor.Editor
     {
         private SerializedProperty _craftingComponents;
@@ -24,7 +24,6 @@ namespace CraftingSystem.Editor
         {
             serializedObject.UpdateIfRequiredOrScript();
             EditorGUILayout.PropertyField(_result, new GUIContent("Result"), new GUILayoutOption[] {GUILayout.Height(50)});
-
             EditorGUILayout.Space(25);
             EditorGUILayout.PropertyField(_gridSize, new GUIContent("Grid Size"));
             EditorGUILayout.Space(25);
@@ -42,14 +41,42 @@ namespace CraftingSystem.Editor
                 }
                 EditorGUILayout.EndHorizontal();
             }
-            
             serializedObject.ApplyModifiedProperties();
+            EditorGUILayout.Space(25);
+            
+            for (var y = 0; y < _gridSize.vector2IntValue.y; y++)
+            {
+                EditorGUILayout.BeginHorizontal();
+                for (var x = 0; x < _gridSize.vector2IntValue.x; x++)
+                {
+                    var index = y * _gridSize.vector2IntValue.x + x;
+
+                    var rect = GUILayoutUtility.GetRect(RecipeCellSize, RecipeCellSize,
+                        RecipeCellSize, RecipeCellSize,
+                        new []{GUILayout.Width(RecipeCellSize)});
+
+                    rect.x += x * 5;
+                    rect.y += y * 5;
+                    var item = ((Item)_craftingComponents.GetArrayElementAtIndex(index).objectReferenceValue);
+                    if (item == null)
+                    {
+                        EditorGUI.DrawRect(rect, Color.grey);
+                        continue;
+                    }
+                    var texture = item.icon.texture;
+                    EditorGUI.DrawTextureTransparent(rect, texture);
+                }
+                EditorGUILayout.EndHorizontal(); 
+            }
+
+            
+            
         }
 
         public override Texture2D RenderStaticPreview(string assetPath, Object[] subAssets, int width, int height)
         {
             //Code from Unity's documentation   
-            Recipe example = (Recipe)target;
+            RecipeScriptable example = (RecipeScriptable)target;
 
             if (example == null || example.result == null || example.result.icon == null)
                 return null;
