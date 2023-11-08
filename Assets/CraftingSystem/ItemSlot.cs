@@ -4,12 +4,13 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 //Holds reference and count of items, manages their visibility in the Inventory panel
 public class ItemSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    public Item item = null;
+    [FormerlySerializedAs("item")] public UseableItem useableItem = null;
 
     [SerializeField]
     private TMPro.TextMeshProUGUI descriptionText;
@@ -45,14 +46,14 @@ public class ItemSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
         if (count < 1)
         {
-            item = null;
+            useableItem = null;
             itemIcon.gameObject.SetActive(false);
             itemCountText.gameObject.SetActive(false);
         }
         else
         {
             //set sprite to the one from the item
-            itemIcon.sprite = item.icon;
+            itemIcon.sprite = useableItem.icon;
             itemIcon.gameObject.SetActive(true);
             itemCountText.gameObject.SetActive(true);
             itemCountText.text = count.ToString();
@@ -63,8 +64,8 @@ public class ItemSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
         if (CanUseItem())
         {
-            item.Use();
-            if (item.isConsumable)
+            useableItem.Use();
+            if (useableItem.isConsumable)
             {
                 Count--;
             }
@@ -73,21 +74,21 @@ public class ItemSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
     private bool CanUseItem()
     {
-        return (item != null && count > 0);
+        return (useableItem != null && count > 0);
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (item != null)
+        if (useableItem != null)
         {
-            descriptionText.text = item.description;
-            nameText.text = item.name;
+            descriptionText.text = useableItem.description;
+            nameText.text = useableItem.name;
         }
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        if(item != null)
+        if(useableItem != null)
         {
             descriptionText.text = "";
             nameText.text = "";
