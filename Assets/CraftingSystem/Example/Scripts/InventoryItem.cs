@@ -4,7 +4,7 @@ using Image = UnityEngine.UI.Image;
 
 namespace CraftingSystem.Example
 {
-    public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler
+    public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
     {
         [SerializeField] private UseableItem _itemInfo;
         
@@ -12,6 +12,22 @@ namespace CraftingSystem.Example
 
         private Image _itemIcon;
 
+        private IItemSlot _currentSlot;
+        
+        private IItemSlot _beginDragSlot;
+        
+        protected void Awake()
+        {
+            _itemIcon = GetComponentInChildren<Image>();
+            if (_itemInfo != null)
+                SetUp(_itemInfo);
+        }
+
+        public void SetSlot(IItemSlot slot)
+        {
+            _currentSlot = slot;
+        }
+        
         public void Use()
         {
             _itemInfo.Use();
@@ -22,22 +38,23 @@ namespace CraftingSystem.Example
             return true;
         }
         
-        protected void Awake()
-        {
-            _itemIcon = GetComponentInChildren<Image>();
-            if (_itemInfo != null)
-                SetUp(_itemInfo);
-        }
-
         public void SetUp(UseableItem itemInfo)
         {
             _itemInfo = itemInfo;
             _itemIcon.sprite = _itemInfo.icon;  
         }
         
+        
         public void OnBeginDrag(PointerEventData eventData)
         {
-            Debug.Log("Begin Drag");
+            var rectTransform = GetComponent<RectTransform>();
+            var tempParent = GameObject.FindGameObjectWithTag("TempParent");
+            
+            if (tempParent == null)
+                throw new MissingReferenceException("TempParent not found, please add a GameObject with tag TempParent to the scene");
+            
+            rectTransform.SetParent(tempParent.transform);
+            _beginDragSlot = _currentSlot;
         }
 
         public void OnDrag(PointerEventData eventData)
@@ -47,12 +64,14 @@ namespace CraftingSystem.Example
 
         public void OnEndDrag(PointerEventData eventData)
         {
-            Debug.Log("End Drag");
-        }
-
-        public void OnDrop(PointerEventData eventData)
-        {
-            Debug.Log("Drop");
+            if (_currentSlot != _beginDragSlot)
+            {
+                return;
+            }
+            
+            var rectTransform = GetComponent<RectTransform>();
+            rectTransform.SetParent(_currentSlot.transform);
+            rectTransform.anchoredPosition = Vector2.zero;
         }
     }
 }

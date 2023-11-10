@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 
 //Holds reference and count of items, manages their visibility in the Inventory panel
-public class ItemSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IItemSlot
+public class ItemSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IItemSlot, IDragHandler
 {
     private InventoryItem _item = null;
     public InventoryItem Item => _item;
@@ -25,6 +25,7 @@ public class ItemSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         rectTransform.SetParent(transform);
         rectTransform.localPosition = Vector3.zero;
         rectTransform.localScale = Vector3.one;
+        _item.SetSlot(this);
         return true;
     }
 
@@ -69,5 +70,22 @@ public class ItemSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
             descriptionText.text = "";
             nameText.text = "";
         }
+    }
+
+    public void OnDrag(PointerEventData eventData)
+    {
+        if (_item != null) return;
+        
+        var item = eventData.pointerDrag.GetComponent<InventoryItem>();
+        if (item == null) return;
+
+        SetItem(item);
+    }
+
+    private void OnValidate()
+    {
+        var boxCollider2D = GetComponent<BoxCollider2D>();
+        var rectTransform = GetComponent<RectTransform>();
+        boxCollider2D.size = rectTransform.sizeDelta;
     }
 }
