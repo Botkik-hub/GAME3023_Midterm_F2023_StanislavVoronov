@@ -21,6 +21,9 @@ namespace CraftingSystem.Core
                 {
                     _recipes.Add(new List<Recipe>());
                 }
+                // no items with 0 ingredients
+                // shift all items by 1 to the less side 
+                // [0] has items with 1 ingredient
                 _recipes[itemsCount - 1].Add(recipe.Recipe);
             }
         }
@@ -33,8 +36,6 @@ namespace CraftingSystem.Core
         /// <returns>Item that is crafted with this items</returns>
         public Item CraftItem(Item[] items, Vector2Int gridSize)
         {
-            print("start search");
-            //TODO figure out this part
             var craftingItems = new GridState(items, gridSize);
             var count = craftingItems.Count;
             
@@ -47,8 +48,8 @@ namespace CraftingSystem.Core
                 return null;
             }
             
-            var recipes = _recipes[items.Length - 1];
-            if (recipes == null || recipes.Count == 0)
+            var recipes = _recipes[count - 1];
+            if (recipes == null)
             {
                 return null;
             }

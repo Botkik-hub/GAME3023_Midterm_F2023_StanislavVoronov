@@ -1,4 +1,5 @@
-﻿using CraftingSystem.Core;
+﻿using System;
+using CraftingSystem.Core;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,15 +11,18 @@ namespace CraftingSystem.Example
 
         private InventoryItem _item;
         private Item _previewItem;
-        private Image _itemIcon; 
+        
+        [SerializeField] private Image _itemIcon; 
         
         [SerializeField] private InventoryItem _itemPrefab;
-        
+
         public void SetItem(Item preview)
         {
             _previewItem = preview;
+            _itemIcon.gameObject.SetActive(false);
             if (_previewItem == null) return;
             _itemIcon.sprite = preview.icon;
+            _itemIcon.gameObject.SetActive(true);
         }
 
         public bool SetItem(InventoryItem item)
