@@ -52,9 +52,17 @@ namespace CraftingSystem.Example
         {
             if (_item != null)
             {
-                _item.GoToSlot();
-                _item = null;
+                if (_inventory.isActiveAndEnabled)
+                    _inventory.StartCoroutine(DisableRoutine());
             }
+        }
+        
+        private IEnumerator DisableRoutine()
+        {
+            yield return new WaitForEndOfFrame();
+            var oldItem = _item;
+            oldItem.ClearSlot();
+            _inventory.AddItem(oldItem);
         }
 
         public void OnDrop(PointerEventData eventData)
