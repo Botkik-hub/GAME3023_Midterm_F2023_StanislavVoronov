@@ -6,8 +6,15 @@ using UnityEngine.EventSystems;
 //Holds reference and count of items, manages their visibility in the Inventory panel
 public class ItemSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IItemSlot, IDropHandler
 {
+    [SerializeField]
+    private TMPro.TextMeshProUGUI descriptionText;
+    [SerializeField]
+    private TMPro.TextMeshProUGUI nameText;
+    
     private InventoryItem _item = null;
     public InventoryItem Item => _item;
+    private UseableItem useableItem => _item.ItemInfo;
+
     public bool SetItem(InventoryItem item)
     {
         if (_item != null)
@@ -22,33 +29,13 @@ public class ItemSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         
         _item = item;
         _item.SetSlot(this);
-        _item.GoToLastSlot();
+        _item.GoToSlot();
         return true;
     }
 
     public void Clear()
     {
         _item = null;
-    }
-
-    private UseableItem useableItem => _item.ItemInfo;
-    
-    [SerializeField]
-    private TMPro.TextMeshProUGUI descriptionText;
-    [SerializeField]
-    private TMPro.TextMeshProUGUI nameText;
-
-    public void UseItemInSlot()
-    {
-        if (CanUseItem())
-        {
-            _item.Use();
-        }
-    }
-
-    private bool CanUseItem()
-    {
-        return (_item != null && _item.CanUse());
     }
 
     public void OnPointerEnter(PointerEventData eventData)

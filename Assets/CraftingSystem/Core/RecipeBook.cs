@@ -79,7 +79,7 @@ namespace CraftingSystem.Core
             {
                 return null;
             }
-            if (count >= _recipes.Count)
+            if (count > _recipes.Count)
             { 
                 return null;
             }
@@ -95,7 +95,6 @@ namespace CraftingSystem.Core
             {
                 if (recipe.CanCraft(craftingItems))
                 {
-                    print ($"found + {recipe.Result.name}");
                     return recipe.Result;
                 }
             }

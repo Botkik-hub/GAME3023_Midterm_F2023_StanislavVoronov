@@ -34,4 +34,16 @@ public class Inventory : MonoBehaviour
             slotIndex++;
         }
     }
+
+    public bool AddItem(InventoryItem item)
+    {
+        foreach (var slot in itemSlots)
+        {
+            if (slot.SetItem(item))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
 }

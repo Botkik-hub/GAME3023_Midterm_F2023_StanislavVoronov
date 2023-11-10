@@ -13,12 +13,21 @@ namespace CraftingSystem.Example
         
         private InventoryItem _item;
 
+        private Inventory _inventory;
+
+        private void Awake()
+        {
+            _inventory = FindObjectOfType<Inventory>();
+        }
+
 
         public bool SetItem(InventoryItem item)
         {
             if (_item!= null)
             {
-                _item.GoToLastSlot();
+                var oldItem = _item;
+                oldItem.ClearSlot();
+                _inventory.AddItem(oldItem);
             }
             
             
@@ -27,7 +36,7 @@ namespace CraftingSystem.Example
             rectTransform.SetParent(transform);
             rectTransform.anchoredPosition = Vector2.zero;
             rectTransform.localScale = Vector3.one;
-            
+            _item.SetSlot(this);
             
             OnItemChanged?.Invoke();
             return true;
@@ -35,18 +44,15 @@ namespace CraftingSystem.Example
 
         public void Clear()
         {
-            if (_item != null)
-            {
-                _item.GoToLastSlot();
-            }
             _item = null;
+            OnItemChanged?.Invoke();
         }
 
         private void OnDisable()
         {
             if (_item != null)
             {
-                _item.GoToLastSlot();
+                _item.GoToSlot();
                 _item = null;
             }
         }
@@ -54,22 +60,17 @@ namespace CraftingSystem.Example
         public void OnDrop(PointerEventData eventData)
         {
             var item = eventData.pointerDrag.GetComponent<InventoryItem>();
-            if (item == null)
-                return;
-            StartCoroutine(OnDropRoutine(item));
-        }
-
-        private IEnumerator OnDropRoutine(InventoryItem item)
-        {
-         
+            if (item == null) return;
+            
             if (_item != null)
             {
-                _item.GoToLastSlot();
-                _item = null;
+                var oldItem = _item;
+                oldItem.ClearSlot();
+                _inventory.AddItem(oldItem);
             }
-            yield return new WaitForEndOfFrame();
-            //item.ClearSlot();
-            SetItem(item);   
+            
+            item.ClearSlot();
+            SetItem(item);
         }
     }
 }

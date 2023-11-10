@@ -15,7 +15,7 @@ namespace CraftingSystem.Example
         private IItemSlot _currentSlot;
         
         private IItemSlot _beginDragSlot;
-
+        
         private RectTransform _rectTransform;
         
         protected void Awake()
@@ -31,18 +31,17 @@ namespace CraftingSystem.Example
             _currentSlot = slot;
         }
         
+        
         public void ClearSlot()
         {
             _currentSlot.Clear();
             _currentSlot = null;
         }
-
         
-        
-        public void GoToLastSlot()
+        public void GoToSlot()
         {
             // BUG: end of the game throws null reference
-            
+
             if (_currentSlot == null)
                 return;
 
@@ -92,7 +91,7 @@ namespace CraftingSystem.Example
             {
                 return;
             }
-            GoToLastSlot();
+            GoToSlot();
         }
     }
 }
