@@ -5,6 +5,9 @@ namespace CraftingSystem.Core
 {
     public class RecipeBook : MonoBehaviour
     {
+        // TODO add suggestion to use this script only one time on a scene/project  
+        
+        // cannot contain item with 0 ingredients
         private readonly List<List<Recipe>> _recipes = new List<List<Recipe>>();
         
         private void Start()
@@ -18,7 +21,7 @@ namespace CraftingSystem.Core
                 {
                     _recipes.Add(new List<Recipe>());
                 }
-                _recipes[itemsCount].Add(recipe.Recipe);
+                _recipes[itemsCount - 1].Add(recipe.Recipe);
             }
         }
 

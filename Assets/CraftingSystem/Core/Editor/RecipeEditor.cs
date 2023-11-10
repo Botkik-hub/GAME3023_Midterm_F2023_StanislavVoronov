@@ -68,9 +68,6 @@ namespace CraftingSystem.Editor
                 }
                 EditorGUILayout.EndHorizontal(); 
             }
-
-            
-            
         }
 
         public override Texture2D RenderStaticPreview(string assetPath, Object[] subAssets, int width, int height)
@@ -78,11 +75,14 @@ namespace CraftingSystem.Editor
             //Code from Unity's documentation   
             RecipeScriptable example = (RecipeScriptable)target;
 
-            if (example == null || example.result == null || example.result.icon == null)
+            
+            
+            if (example == null || example.Recipe == null ||
+                example.Recipe.Result || example.Recipe.Result == null)
                 return null;
             
             Texture2D tex = new Texture2D (width, height);
-            EditorUtility.CopySerialized (example.result.icon.texture, tex);
+            EditorUtility.CopySerialized (example.Recipe.Result.icon.texture, tex);
 
             return tex;
         }

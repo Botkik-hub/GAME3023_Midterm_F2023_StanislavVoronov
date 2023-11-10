@@ -6,7 +6,9 @@ using UnityEngine;
 public class UseableItem : Item
 {
     public bool isConsumable = false;
-
+    
+    [TextArea]
+    public string description = "";
     public void Use()
     {
         Debug.Log("This is the Use() function of item: " + name + " - " + description);

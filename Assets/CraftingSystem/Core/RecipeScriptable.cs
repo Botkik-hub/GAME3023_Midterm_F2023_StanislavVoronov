@@ -6,17 +6,35 @@ namespace CraftingSystem.Core
     public class RecipeScriptable : ScriptableObject
     {
         //Used in editor
-        public Item[] ingredients;
-        public Vector2Int sizeOfGrid;
-        public Item result;
+        [SerializeField] private Item[] ingredients;
+        [SerializeField] private Vector2Int sizeOfGrid;
+        [SerializeField] private Item result;
        
+        private bool _isRecipeValid = false;
+        
         //Used in game logic
         private Recipe _recipe;        
         public Recipe Recipe => _recipe;
+        public bool IsValid => _isRecipeValid;
         
         private void OnValidate()
         {
-            _recipe = new Recipe(sizeOfGrid, ingredients, result);
+            if (sizeOfGrid == Vector2Int.zero)
+            {
+                Debug.LogError("Size of grid cannot be zero");
+                return;
+            }
+
+            // check if at least one item is not null
+            foreach (var item in ingredients)
+            {
+                if (item != null)
+                {
+                    _recipe = new Recipe(sizeOfGrid, ingredients, result);
+                    _isRecipeValid = true;
+                    return;                     
+                }
+            }
         }
     }
 }

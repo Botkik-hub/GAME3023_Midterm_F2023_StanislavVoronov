@@ -1,14 +1,14 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace CraftingSystem.Core
 {
-    [CreateAssetMenu(fileName = "New Item", menuName = "Items/New Item")]
-    public class Item : ScriptableObject
+    /// <summary>
+    /// Simple Item with icon
+    /// Inherit from this to make your items with custom logic
+    /// </summary>
+
+    public abstract class Item : ScriptableObject
     {
         public Sprite icon;
-        
-        [TextArea]
-        public string description = "";
     }
 }
