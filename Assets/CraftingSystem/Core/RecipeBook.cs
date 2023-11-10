@@ -33,17 +33,32 @@ namespace CraftingSystem.Core
         /// <returns>Item that is crafted with this items</returns>
         public Item CraftItem(Item[] items, Vector2Int gridSize)
         {
-            var recipes = _recipes[items.Length];
-            if (recipes == null)
+            print("start search");
+            //TODO figure out this part
+            var craftingItems = new GridState(items, gridSize);
+            var count = craftingItems.Count;
+            
+            if (count == 0)
             {
                 return null;
             }
-            var craftingItems = new GridState(items, gridSize);
+            if (count >= _recipes.Count)
+            { 
+                return null;
+            }
+            
+            var recipes = _recipes[items.Length - 1];
+            if (recipes == null || recipes.Count == 0)
+            {
+                return null;
+            }
+            
             
             foreach (var recipe in recipes)
             {
                 if (recipe.CanCraft(craftingItems))
                 {
+                    print ($"found + {recipe.Result.name}");
                     return recipe.Result;
                 }
             }

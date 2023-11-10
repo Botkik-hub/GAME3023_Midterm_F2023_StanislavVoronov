@@ -17,6 +17,7 @@ namespace CraftingSystem.Example
         public void SetItem(Item preview)
         {
             _previewItem = preview;
+            if (_previewItem == null) return;
             _itemIcon.sprite = preview.icon;
         }
 

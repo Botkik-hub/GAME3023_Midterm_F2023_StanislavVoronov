@@ -21,11 +21,8 @@ public class ItemSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         }
         
         _item = item;
-        var rectTransform = _item.GetComponent<RectTransform>();        
-        rectTransform.SetParent(transform);
-        rectTransform.anchoredPosition = Vector2.zero;
-        rectTransform.localScale = Vector3.one;
         _item.SetSlot(this);
+        _item.GoToLastSlot();
         return true;
     }
 

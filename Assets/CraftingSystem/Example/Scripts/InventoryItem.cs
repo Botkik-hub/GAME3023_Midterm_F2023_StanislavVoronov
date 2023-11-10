@@ -15,9 +15,12 @@ namespace CraftingSystem.Example
         private IItemSlot _currentSlot;
         
         private IItemSlot _beginDragSlot;
+
+        private RectTransform _rectTransform;
         
         protected void Awake()
         {
+            _rectTransform = GetComponent<RectTransform>();
             _itemIcon = GetComponentInChildren<Image>();
             if (_itemInfo != null)
                 SetUp(_itemInfo);
@@ -32,6 +35,20 @@ namespace CraftingSystem.Example
         {
             _currentSlot.Clear();
             _currentSlot = null;
+        }
+
+        
+        
+        public void GoToLastSlot()
+        {
+            // BUG: end of the game throws null reference
+            
+            if (_currentSlot == null)
+                return;
+
+            _rectTransform.SetParent(_currentSlot.transform);
+            _rectTransform.anchoredPosition = Vector2.zero;
+            _rectTransform.localScale = Vector3.one;
         }
         
         public void Use()
@@ -53,13 +70,12 @@ namespace CraftingSystem.Example
         
         public void OnBeginDrag(PointerEventData eventData)
         {
-            var rectTransform = GetComponent<RectTransform>();
             var tempParent = GameObject.FindGameObjectWithTag("TempParent");
             
             if (tempParent == null)
                 throw new MissingReferenceException("TempParent not found, please add a GameObject with tag TempParent to the scene");
             
-            rectTransform.SetParent(tempParent.transform);
+            _rectTransform.SetParent(tempParent.transform);
             _beginDragSlot = _currentSlot;
             _itemIcon.raycastTarget = false;
         }
@@ -76,10 +92,7 @@ namespace CraftingSystem.Example
             {
                 return;
             }
-            
-            var rectTransform = GetComponent<RectTransform>();
-            rectTransform.SetParent(_currentSlot.transform);
-            rectTransform.anchoredPosition = Vector2.zero;
+            GoToLastSlot();
         }
     }
 }

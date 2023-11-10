@@ -18,6 +18,8 @@ namespace CraftingSystem.Example
         private void Awake()
         {
             _recipeBook = FindObjectOfType<RecipeBook>();
+            craftingSlots = GetComponentsInChildren<CraftingSlot>();
+            resultSlot = GetComponentInChildren<ResultSlot>();
         }
 
         private void Start()
@@ -33,6 +35,11 @@ namespace CraftingSystem.Example
             var items = new Item[GridSize * GridSize];
             for (int i = 0; i < craftingSlots.Length; i++)
             {
+                if (craftingSlots[i].Item == null)
+                {
+                    items[i] = null;
+                    continue;
+                }
                 items[i] = craftingSlots[i].Item.ItemInfo;
             }
 
