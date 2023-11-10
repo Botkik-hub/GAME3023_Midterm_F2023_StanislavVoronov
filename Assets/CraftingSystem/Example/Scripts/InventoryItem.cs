@@ -28,6 +28,12 @@ namespace CraftingSystem.Example
             _currentSlot = slot;
         }
         
+        public void ClearSlot()
+        {
+            _currentSlot.Clear();
+            _currentSlot = null;
+        }
+        
         public void Use()
         {
             _itemInfo.Use();
@@ -55,6 +61,7 @@ namespace CraftingSystem.Example
             
             rectTransform.SetParent(tempParent.transform);
             _beginDragSlot = _currentSlot;
+            _itemIcon.raycastTarget = false;
         }
 
         public void OnDrag(PointerEventData eventData)
@@ -64,6 +71,7 @@ namespace CraftingSystem.Example
 
         public void OnEndDrag(PointerEventData eventData)
         {
+            _itemIcon.raycastTarget = true;
             if (_currentSlot != _beginDragSlot)
             {
                 return;

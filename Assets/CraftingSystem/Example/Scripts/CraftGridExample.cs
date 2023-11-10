@@ -44,6 +44,7 @@ namespace CraftingSystem.Example
         private void Craft()
         {
             // TODO implement crafting
+            resultSlot.CreateItem();
         }
     }
 }

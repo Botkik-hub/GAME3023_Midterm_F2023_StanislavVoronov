@@ -12,6 +12,7 @@ namespace CraftingSystem.Example
         private Item _previewItem;
         private Image _itemIcon; 
         
+        [SerializeField] private InventoryItem _itemPrefab;
         
         public void SetItem(Item preview)
         {
@@ -30,6 +31,16 @@ namespace CraftingSystem.Example
             _previewItem = null;
             _itemIcon.sprite = null;
             _item = null;
+        }
+        
+        public void CreateItem()
+        {
+            if (_item == null) return;
+            
+            _item = Instantiate(_itemPrefab, transform.position, Quaternion.identity);
+            _item.transform.SetParent(transform);
+            _item.transform.localScale = Vector3.one;
+            _item.SetSlot(this);
         }
     }
 }
