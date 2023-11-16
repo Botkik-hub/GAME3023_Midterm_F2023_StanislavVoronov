@@ -1,6 +1,7 @@
 ﻿using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 using Image = UnityEngine.UI.Image;
 
 namespace CraftingSystem.Example
@@ -21,7 +22,9 @@ namespace CraftingSystem.Example
         
         public int _count = 1;
         private TMP_Text _itemCountText;
-
+        
+        private Button _useButton;
+        
         public int Count
         {
             get => _count;
@@ -37,6 +40,8 @@ namespace CraftingSystem.Example
             _rectTransform = GetComponent<RectTransform>();
             _itemIcon = GetComponentInChildren<Image>();
             _itemCountText = GetComponentInChildren<TMP_Text>();
+            _useButton = GetComponentInChildren<Button>();
+            _useButton.onClick.AddListener(Use);
             _itemCountText.text = _count.ToString();
             
             if (_itemInfo != null)
@@ -70,6 +75,16 @@ namespace CraftingSystem.Example
         public void Use()
         {
             _itemInfo.Use();
+            if (_itemInfo.isConsumable)
+            {
+                Count--;
+                if (Count <= 0)
+                {
+                    ClearSlot();
+                    //Can be made more efficient by pooling items
+                    Destroy(gameObject);
+                }    
+            }
         }
         
         public bool CanUse()

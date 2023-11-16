@@ -1,7 +1,5 @@
-using System;
 using System.Collections.Generic;
 using CraftingSystem.Example;
-using UnityEditor.UIElements;
 using UnityEngine;
 
 public class Inventory : MonoBehaviour
@@ -21,7 +19,7 @@ public class Inventory : MonoBehaviour
         );
     }
 
-    void Start()
+    private void OnEnable()
     {
         CreateItems();
     }
@@ -70,7 +68,7 @@ public class Inventory : MonoBehaviour
                 item.ClearSlot();
                 startItems.Add(new InventorItemAndCount(item.ItemInfo, item.Count));
                 // Can be made more efficient by pooling items
-                Destroy(item);
+                Destroy(item.gameObject);
             }
         }
     }
