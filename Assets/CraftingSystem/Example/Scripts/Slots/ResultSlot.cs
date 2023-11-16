@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using TMPro;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace CraftingSystem.Example
@@ -14,23 +15,35 @@ namespace CraftingSystem.Example
         
         [SerializeField] private InventoryItem _itemPrefab;
 
-        private Inventory _inventory;
+        private TMP_Text _itemCountText;   
         
+        private Inventory _inventory;
+
+        private int craftCount;
         
         private void Awake()
         {
             _inventory = FindObjectOfType<Inventory>();
+            _itemCountText = GetComponentInChildren<TMP_Text>();
+            _itemCountText.gameObject.SetActive(false);
         }
-
-            
         
-        public void SetItem(UseableItem preview)
+        public void SetItem(UseableItem preview, int count)
         {
             _previewItem = preview;
-            _itemIcon.gameObject.SetActive(false);
-            if (_previewItem == null) return;
+            if (_previewItem == null) 
+            {
+                _itemCountText.gameObject.SetActive(false);
+                _itemIcon.gameObject.SetActive(false);
+                return;
+            }
+            
             _itemIcon.sprite = preview.icon;
             _itemIcon.gameObject.SetActive(true);
+            craftCount = count;
+            _itemCountText.gameObject.SetActive(true);
+            _itemCountText.text = craftCount.ToString();
+        
         }
 
         public bool SetItem(InventoryItem item)
@@ -52,7 +65,7 @@ namespace CraftingSystem.Example
             if (_previewItem == null) return;
             
             _item = Instantiate(_itemPrefab, transform.position, Quaternion.identity);
-            _item.SetUp(_previewItem, 1);
+            _item.SetUp(_previewItem, craftCount);
             _inventory.AddItem(_item);
         }
     }

@@ -9,7 +9,8 @@ namespace CraftingSystem.Core
         [SerializeField] private Item[] ingredients;
         [SerializeField] private Vector2Int sizeOfGrid;
         [SerializeField] private Item result;
-       
+        [SerializeField] private int resultCount = 1;
+        
         private bool _isRecipeValid = false;
         
         //Used in game logic
@@ -31,8 +32,8 @@ namespace CraftingSystem.Core
             {
                 if (item != null)
                 {
-                    _recipe = new Recipe(sizeOfGrid, ingredients, result);
-                    _isRecipeValid = true;
+                    _recipe = new Recipe(sizeOfGrid, ingredients, result, resultCount);
+                    _isRecipeValid = resultCount > 0;
                     return;                     
                 }
             }

@@ -10,7 +10,8 @@ namespace CraftingSystem.Editor
         private SerializedProperty _craftingComponents;
         private SerializedProperty _result;
         private SerializedProperty _gridSize;
-
+        private SerializedProperty _resultCount;
+        
         private const float RecipeCellSize = 100f;
 
         private void OnEnable()
@@ -18,12 +19,14 @@ namespace CraftingSystem.Editor
             _craftingComponents = serializedObject.FindProperty("ingredients");
             _result = serializedObject.FindProperty("result");
             _gridSize = serializedObject.FindProperty("sizeOfGrid");
+            _resultCount = serializedObject.FindProperty("resultCount");
         }
 
         public override void OnInspectorGUI()
         {
             serializedObject.UpdateIfRequiredOrScript();
             EditorGUILayout.PropertyField(_result, new GUIContent("Result"), new GUILayoutOption[] {GUILayout.Height(50)});
+            EditorGUILayout.PropertyField(_resultCount, new GUIContent("Result Count"));
             EditorGUILayout.Space(25);
             EditorGUILayout.PropertyField(_gridSize, new GUIContent("Grid Size"));
             EditorGUILayout.Space(25);

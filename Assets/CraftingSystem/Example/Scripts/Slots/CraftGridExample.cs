@@ -61,10 +61,10 @@ namespace CraftingSystem.Example
                 }
                 items[i] = craftingSlots[i].Item.ItemInfo;
             }
-
-            var craftedItem = _recipeBook.CraftItem(items, new Vector2Int(GridSize, GridSize));
             
-            resultSlot.SetItem((UseableItem)craftedItem);
+            var craftedItem = _recipeBook.CheckGridState(items, new Vector2Int(GridSize, GridSize), out int resultCount);
+            
+            resultSlot.SetItem((UseableItem)craftedItem, resultCount);
             var hasItem = craftedItem != null;
             _hasItem = hasItem;
             _craftButton.interactable = hasItem;
@@ -72,7 +72,7 @@ namespace CraftingSystem.Example
 
         private void CreateItem()
         {
-            if (_hasItem) return;
+            if (!_hasItem) return;
             
             resultSlot.CreateItem();
             

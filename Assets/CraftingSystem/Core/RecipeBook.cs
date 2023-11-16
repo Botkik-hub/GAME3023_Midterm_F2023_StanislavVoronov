@@ -64,14 +64,15 @@ namespace CraftingSystem.Core
             _recipes.Clear();
             _isLoaded = false;
         }
-        
+
         /// <summary>
         /// Returns a list of recipes that match the given items
         /// </summary>
         /// <param name="items">Get all items in a grid, null if item not exist at the grid cell</param>
         /// <param name="gridSize">Max dimensions of a grid</param>
+        /// <param name="resultCount">Returns how many result items specified in the recipe</param>
         /// <returns>Item that is crafted with this items</returns>
-        public Item CraftItem(Item[] items, Vector2Int gridSize)
+        public Item CheckGridState(Item[] items, Vector2Int gridSize, out int resultCount)
         {
             if (!_isLoaded) throw new Exception("Recipes are not loaded");
             
@@ -80,16 +81,19 @@ namespace CraftingSystem.Core
             
             if (count == 0)
             {
+                resultCount = 0;
                 return null;
             }
             if (count > _recipes.Count)
-            { 
+            {
+                resultCount = 0;
                 return null;
             }
             
             var recipes = _recipes[count - 1];
             if (recipes == null)
             {
+                resultCount = 0;
                 return null;
             }
             
@@ -98,9 +102,11 @@ namespace CraftingSystem.Core
             {
                 if (recipe.CanCraft(craftingItems))
                 {
+                    resultCount = recipe.ResultCount;
                     return recipe.Result;
                 }
             }
+            resultCount = 0;
             return null;
         }
     }

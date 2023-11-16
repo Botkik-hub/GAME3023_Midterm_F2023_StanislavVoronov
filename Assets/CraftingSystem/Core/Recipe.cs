@@ -8,10 +8,14 @@ namespace CraftingSystem.Core
     public class Recipe : GridState
     {
         private Item _result;
-        public Item Result => _result;
+        private int _resultCount;
         
-        public Recipe(Vector2Int gridSize, Item[] recipeItems, Item result) : base(recipeItems, gridSize)
+        public Item Result => _result;
+        public int ResultCount => _resultCount;
+        
+        public Recipe(Vector2Int gridSize, Item[] recipeItems, Item result, int resultCount) : base(recipeItems, gridSize)
         {
+            _resultCount = resultCount;
             _result = result;
         }
         
