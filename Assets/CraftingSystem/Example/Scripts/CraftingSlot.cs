@@ -65,11 +65,19 @@ namespace CraftingSystem.Example
             oldItem.ClearSlot();
             _inventory.AddItem(oldItem);
         }
-
+        
         public void OnDrop(PointerEventData eventData)
         {
             var item = eventData.pointerDrag.GetComponent<InventoryItem>();
             if (item == null) return;
+            
+            if (_item != null && _item.ItemInfo == item.ItemInfo)
+            {
+                _item.Count += item.Count;
+                item.ClearSlot();
+                Destroy(item.gameObject);
+                return;    
+            }
             
             if (_item != null)
             {
