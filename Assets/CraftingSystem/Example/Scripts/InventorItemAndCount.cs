@@ -3,7 +3,7 @@
 namespace CraftingSystem.Example
 {
     [Serializable]
-    public struct InventorItemAndCount
+    public class InventorItemAndCount
     {
         public UseableItem itemInfo;
         public int count;

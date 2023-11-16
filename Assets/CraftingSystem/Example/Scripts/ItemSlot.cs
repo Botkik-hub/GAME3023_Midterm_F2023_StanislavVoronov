@@ -82,6 +82,9 @@ public class ItemSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
             SetItem(item);   
             return;
         }
+
+        if (_item == item)
+            return;
         
         if (_item.ItemInfo == item.ItemInfo)
         {

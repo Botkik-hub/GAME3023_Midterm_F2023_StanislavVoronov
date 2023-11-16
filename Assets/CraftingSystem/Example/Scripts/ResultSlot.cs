@@ -1,6 +1,4 @@
-﻿using System;
-using CraftingSystem.Core;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 namespace CraftingSystem.Example
@@ -10,16 +8,37 @@ namespace CraftingSystem.Example
         public InventoryItem Item => _item;
 
         private InventoryItem _item;
-        private Item _previewItem;
+        private UseableItem _previewItem;
         
         [SerializeField] private Image _itemIcon; 
         
         [SerializeField] private InventoryItem _itemPrefab;
 
-        public void SetItem(Item preview)
+        private Button _craftButton;
+        private Inventory _inventory;
+        
+        
+        private void Awake()
+        {
+            _craftButton = GetComponentInChildren<Button>();
+            _inventory = FindObjectOfType<Inventory>();
+        }
+
+        private void OnEnable()
+        {
+            _craftButton.onClick.AddListener(CreateItem);
+        }
+
+        private void OnDisable()
+        {
+            _craftButton.onClick.RemoveListener(CreateItem);
+        }        
+        
+        public void SetItem(UseableItem preview)
         {
             _previewItem = preview;
             _itemIcon.gameObject.SetActive(false);
+            _craftButton.interactable = preview != null;
             if (_previewItem == null) return;
             _itemIcon.sprite = preview.icon;
             _itemIcon.gameObject.SetActive(true);
@@ -35,17 +54,17 @@ namespace CraftingSystem.Example
         {
             _previewItem = null;
             _itemIcon.sprite = null;
+            _itemIcon.gameObject.SetActive(false);
             _item = null;
         }
         
-        public void CreateItem()
+        private void CreateItem()
         {
-            if (_item == null) return;
+            if (_previewItem == null) return;
             
             _item = Instantiate(_itemPrefab, transform.position, Quaternion.identity);
-            _item.transform.SetParent(transform);
-            _item.transform.localScale = Vector3.one;
-            _item.SetSlot(this);
+            _item.SetUp(_previewItem, 1);
+            _inventory.AddItem(_item);
         }
     }
 }

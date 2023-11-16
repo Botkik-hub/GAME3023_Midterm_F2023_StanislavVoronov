@@ -11,6 +11,7 @@ namespace CraftingSystem.Example
         
         [SerializeField] private ResultSlot resultSlot;
         
+        
         private RecipeBook _recipeBook;
 
         private const int GridSize = 3;        
@@ -45,7 +46,7 @@ namespace CraftingSystem.Example
 
             var craftedItem = _recipeBook.CraftItem(items, new Vector2Int(GridSize, GridSize));
             
-            resultSlot.SetItem(craftedItem);
+            resultSlot.SetItem((UseableItem)craftedItem);
         }
     }
 }

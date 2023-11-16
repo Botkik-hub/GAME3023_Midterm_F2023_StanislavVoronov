@@ -1,4 +1,5 @@
-﻿using TMPro;
+﻿using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -31,10 +32,23 @@ namespace CraftingSystem.Example
             set
             {
                 _count = value;
+                if (_count <= 0)
+                {
+                    Destroy(gameObject);
+                    return;
+                }
                 _itemCountText.text = _count.ToString();
             }
         }
-        
+
+        private void OnDestroy()
+        {
+            _useButton.onClick.RemoveListener(Use);
+            
+            if (_currentSlot != null)
+                _currentSlot.Clear();
+        }
+
         protected void Awake()
         {
             _rectTransform = GetComponent<RectTransform>();
@@ -56,6 +70,9 @@ namespace CraftingSystem.Example
         
         public void ClearSlot()
         {
+            if (_currentSlot == null)
+                return;
+            
             _currentSlot.Clear();
             _currentSlot = null;
         }
