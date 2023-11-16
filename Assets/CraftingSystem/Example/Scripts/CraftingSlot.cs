@@ -14,6 +14,7 @@ namespace CraftingSystem.Example
         private InventoryItem _item;
 
         private Inventory _inventory;
+        
 
         private void Awake()
         {

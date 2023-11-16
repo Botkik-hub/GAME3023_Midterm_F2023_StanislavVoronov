@@ -20,7 +20,7 @@ namespace CraftingSystem.Example
         
         private RectTransform _rectTransform;
         
-        public int _count = 1;
+        private int _count = 1;
         private TMP_Text _itemCountText;
         
         private Button _useButton;

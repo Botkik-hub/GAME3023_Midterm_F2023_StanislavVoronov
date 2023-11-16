@@ -47,11 +47,5 @@ namespace CraftingSystem.Example
             
             resultSlot.SetItem(craftedItem);
         }
-
-        private void Craft()
-        {
-            // TODO implement crafting
-            resultSlot.CreateItem();
-        }
     }
 }

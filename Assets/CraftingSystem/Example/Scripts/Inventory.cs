@@ -44,19 +44,41 @@ public class Inventory : MonoBehaviour
         }
     }
     
-    public bool AddItem(InventoryItem item)
+    public void AddItem(InventoryItem item)
     {
+        ItemSlot emptySlot = null;
+        
         foreach (var slot in itemSlots)
         {
-            // Here can be handled situation when inventory is full
-            if (slot.SetItem(item))
+            if (slot.Item == null)
             {
-                return true;
+                if (emptySlot == null)
+                    emptySlot = slot;
+                continue;
+            }
+
+            if (slot.Item.ItemInfo == item.ItemInfo)
+            {
+                   slot.StackItems(item);
+                   return;
             }
         }
-        return false;
+        
+        if (emptySlot != null && emptySlot.SetItem(item))
+        {
+            return;
+        }
+        HandleInventoryFull(item);
     }
 
+    private void HandleInventoryFull(InventoryItem item)
+    {
+        // Do whatever with item,
+        // for example, destroy it
+        
+        Destroy(item.gameObject);
+    }
+    
     private void OnDisable()
     {
         startItems.Clear();

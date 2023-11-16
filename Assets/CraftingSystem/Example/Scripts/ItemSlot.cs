@@ -56,13 +56,37 @@ public class ItemSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         }
     }
 
+    public void StackItems(InventoryItem item)
+    {
+        if (_item == null) 
+            throw new Exception("Item is null, try use SetItem() instead");
+
+
+        if (_item.ItemInfo != item.ItemInfo)
+            throw new Exception("Items does not match");
+    
+        _item.Count += item.Count;
+        item.ClearSlot();
+        Destroy(item.gameObject);
+    
+    }
+    
     public void OnDrop(PointerEventData eventData)
     {
-        if (_item != null) return;
-        
         var item = eventData.pointerDrag.GetComponent<InventoryItem>();
         if (item == null) return;
-        item.ClearSlot();
-        SetItem(item);
+
+        if (_item == null)
+        {
+            item.ClearSlot();
+            SetItem(item);   
+            return;
+        }
+        
+        if (_item.ItemInfo == item.ItemInfo)
+        {
+            StackItems(item);
+            return;
+        }
     }
 }
