@@ -23,4 +23,6 @@ create your items by inheriting the Item class and creating a new scriptable obj
 
 you can create your own recipes just by creating a new scriptable object from the RecipeScriptable class or you can inherit from it and add your specifics
 
+All recipes have to be in the Resources folder, you can specify subfolders in the RecipeBook instances
+
 RecipeBook has to be on the scene to work, you can choose when to load your recipes by calling LoadRecipes() method
