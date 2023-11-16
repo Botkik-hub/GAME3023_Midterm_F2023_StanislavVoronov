@@ -38,6 +38,8 @@ namespace CraftingSystem.Core
                 var recipes = Resources.LoadAll<RecipeScriptable>(path);
                 foreach (var recipe in recipes)
                 {
+                    if (!recipe.IsValid) continue;
+                    
                     var itemsCount = recipe.Recipe.Count;
                     while (_recipes.Count < itemsCount)
                     {
@@ -46,6 +48,7 @@ namespace CraftingSystem.Core
                     // no items with 0 ingredients
                     // shift all items by 1 to the less side 
                     // [0] has items with 1 ingredient
+                    
                     _recipes[itemsCount - 1].Add(recipe.Recipe);
                 }   
             }

@@ -72,17 +72,15 @@ namespace CraftingSystem.Editor
 
         public override Texture2D RenderStaticPreview(string assetPath, Object[] subAssets, int width, int height)
         {
-            //Code from Unity's documentation   
-            RecipeScriptable example = (RecipeScriptable)target;
-
+            RecipeScriptable recipe = (RecipeScriptable)target;
             
-            
-            if (example == null || example.Recipe == null ||
-                example.Recipe.Result || example.Recipe.Result == null)
+            if (recipe == null || recipe.Recipe == null
+                               || recipe.Recipe.Result == null
+                               || recipe.Recipe.Result.icon == null)
                 return null;
             
             Texture2D tex = new Texture2D (width, height);
-            EditorUtility.CopySerialized (example.Recipe.Result.icon.texture, tex);
+            EditorUtility.CopySerialized (recipe.Recipe.Result.icon.texture, tex);
 
             return tex;
         }

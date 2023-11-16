@@ -72,7 +72,7 @@ namespace CraftingSystem.Example
 
         private void CreateItem()
         {
-            if (_hasItem == null) return;
+            if (_hasItem) return;
             
             resultSlot.CreateItem();
             

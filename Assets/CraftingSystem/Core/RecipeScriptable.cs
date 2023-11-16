@@ -25,6 +25,7 @@ namespace CraftingSystem.Core
                 return;
             }
 
+            _isRecipeValid = false;
             // check if at least one item is not null
             foreach (var item in ingredients)
             {
