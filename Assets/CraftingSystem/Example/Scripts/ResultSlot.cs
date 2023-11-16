@@ -14,31 +14,20 @@ namespace CraftingSystem.Example
         
         [SerializeField] private InventoryItem _itemPrefab;
 
-        private Button _craftButton;
         private Inventory _inventory;
         
         
         private void Awake()
         {
-            _craftButton = GetComponentInChildren<Button>();
             _inventory = FindObjectOfType<Inventory>();
         }
 
-        private void OnEnable()
-        {
-            _craftButton.onClick.AddListener(CreateItem);
-        }
-
-        private void OnDisable()
-        {
-            _craftButton.onClick.RemoveListener(CreateItem);
-        }        
+            
         
         public void SetItem(UseableItem preview)
         {
             _previewItem = preview;
             _itemIcon.gameObject.SetActive(false);
-            _craftButton.interactable = preview != null;
             if (_previewItem == null) return;
             _itemIcon.sprite = preview.icon;
             _itemIcon.gameObject.SetActive(true);
@@ -57,8 +46,8 @@ namespace CraftingSystem.Example
             _itemIcon.gameObject.SetActive(false);
             _item = null;
         }
-        
-        private void CreateItem()
+
+        public void CreateItem()
         {
             if (_previewItem == null) return;
             
