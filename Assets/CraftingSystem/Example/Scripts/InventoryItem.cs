@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using TMPro;
+using UnityEngine;
 using UnityEngine.EventSystems;
 using Image = UnityEngine.UI.Image;
 
@@ -18,12 +19,28 @@ namespace CraftingSystem.Example
         
         private RectTransform _rectTransform;
         
+        public int _count = 1;
+        private TMP_Text _itemCountText;
+
+        public int Count
+        {
+            get => _count;
+            set
+            {
+                _count = value;
+                _itemCountText.text = _count.ToString();
+            }
+        }
+        
         protected void Awake()
         {
             _rectTransform = GetComponent<RectTransform>();
             _itemIcon = GetComponentInChildren<Image>();
+            _itemCountText = GetComponentInChildren<TMP_Text>();
+            _itemCountText.text = _count.ToString();
+            
             if (_itemInfo != null)
-                SetUp(_itemInfo);
+                SetUp(_itemInfo, _count);
         }
 
         public void SetSlot(IItemSlot slot)
@@ -60,10 +77,11 @@ namespace CraftingSystem.Example
             return true;
         }
         
-        public void SetUp(UseableItem itemInfo)
+        public void SetUp(UseableItem itemInfo, int count)
         {
             _itemInfo = itemInfo;
             _itemIcon.sprite = _itemInfo.icon;  
+            Count = count;
         }
         
         
