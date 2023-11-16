@@ -21,3 +21,7 @@ Slots should implement the IItemSlot interface.
 Drag and Drop use unity's drag and drop system.
 
 Slots have OnDrop method and Items can be draggable
+
+
+# Known issues:
+    Unity errors when closing inventory window (cannot start couroutine on disabled object)
