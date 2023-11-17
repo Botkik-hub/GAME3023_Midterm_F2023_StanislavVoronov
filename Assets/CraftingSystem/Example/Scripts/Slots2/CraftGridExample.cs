@@ -6,17 +6,22 @@ namespace CraftingSystem.Example.Slots2
     public class CraftGridExample : MonoBehaviour  
     {
         [SerializeField] private CraftingSlot[] craftingSlots;
+        [SerializeField] private int GridSize = 3;        
         
         private ResultSlot _resultSlot;
         
         private RecipeBook _recipeBook;
 
-        private int GridSize = 3;        
-        
         private void Awake()
         {
             _resultSlot = GetComponentInChildren<ResultSlot>();
             _recipeBook = FindObjectOfType<RecipeBook>();
+            var totalSlots = GridSize * GridSize;
+            
+            if (craftingSlots.Length != totalSlots)
+            {
+                Debug.LogError($"Crafting grid size is {GridSize}x{GridSize} but there are {craftingSlots.Length} slots. Please fix it.");
+            }
         }
 
         private void OnEnable()
@@ -34,7 +39,7 @@ namespace CraftingSystem.Example.Slots2
                 craftingSlot.OnItemChanged -= OnItemChanged;
             }
         }
-
+        
         private void OnItemChanged()
         {
             var items = new Item[GridSize * GridSize];

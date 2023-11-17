@@ -446,6 +446,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4215895603658271095, guid: 50147ce332354bc45a153732d66a7273, type: 3}
+      propertyPath: GridSize
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 4219882440579797390, guid: 50147ce332354bc45a153732d66a7273, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
