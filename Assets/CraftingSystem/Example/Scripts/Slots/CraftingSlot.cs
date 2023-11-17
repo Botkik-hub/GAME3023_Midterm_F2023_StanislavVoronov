@@ -71,6 +71,9 @@ namespace CraftingSystem.Example
             var item = eventData.pointerDrag.GetComponent<InventoryItem>();
             if (item == null) return;
             
+            if (_item == item)
+                return;
+            
             if (_item != null && _item.ItemInfo == item.ItemInfo)
             {
                 _item.Count += item.Count;
