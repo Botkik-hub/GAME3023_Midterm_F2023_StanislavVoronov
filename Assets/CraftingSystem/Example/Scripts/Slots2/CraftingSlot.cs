@@ -1,7 +1,4 @@
-﻿
-
-using System;
-using UnityEngine.EventSystems;
+﻿using System;
 
 namespace CraftingSystem.Example.Slots2
 {
@@ -15,16 +12,11 @@ namespace CraftingSystem.Example.Slots2
             OnItemChanged?.Invoke();
         }
 
-        public override void OnDrop(PointerEventData eventData)
+        public override bool AddItem(DragableItem item)
         {
-            var item = eventData.pointerDrag.GetComponent<DragableItem>();
-            if (item == null) return;
-            
-            if (AddItem(item))
-            {
-                item.SetSlot(this);
-                OnItemChanged?.Invoke();
-            }
+            var returnValue = base.AddItem(item);
+            OnItemChanged?.Invoke();
+            return returnValue;
         }
     }
 }

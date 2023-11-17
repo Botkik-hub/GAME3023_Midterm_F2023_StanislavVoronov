@@ -1,68 +1,68 @@
-﻿using TMPro;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.UI;
 
 namespace CraftingSystem.Example.Slots2
 {
     public class ResultSlot : BaseSlot
     {
-        [SerializeField] private Image _itemIcon; 
         [SerializeField] private DragableItem _itemPrefab;
+        
+        private CraftGridExample _craftGrid;
         
         private UseableItem _previewItem;
         
-        private TMP_Text _itemCountText;   
-        
         private Inventory _inventory;
-        private int _craftCount;
+        
         
         private void Awake()
         {
+            _craftGrid = FindObjectOfType<CraftGridExample>();
             _inventory = FindObjectOfType<Inventory>();
-            _itemCountText = GetComponentInChildren<TMP_Text>();
-            _itemCountText.gameObject.SetActive(false);
+        }
+
+        private void Start()
+        {
+            CreatePreviewItem();            
+        }
+
+        private void CreatePreviewItem()
+        {
+            _item = Instantiate(_inventory.ItemPrefab).GetComponent<DragableItem>();
+            _item.SetSlot(this);
+            _item.GoToSlot();
+            _item.IsUsable = false;
+            _item.gameObject.SetActive(false);
         }
         
-        public void SetItem(UseableItem preview, int count)
+        public void SetPreview(UseableItem preview, int count)
         {
             _previewItem = preview;
             if (_previewItem == null) 
             {
-                _itemCountText.gameObject.SetActive(false);
-                _itemIcon.gameObject.SetActive(false);
+                _item.gameObject.SetActive(false);
                 return;
-            }
+            } 
             
-            _itemIcon.sprite = preview.icon;
-            _itemIcon.gameObject.SetActive(true);
-            _craftCount = count;
-            _itemCountText.gameObject.SetActive(true);
-            _itemCountText.text = _craftCount.ToString();
+            _item.SetUp(_previewItem, count);
+            _item.gameObject.SetActive(true);
         }
 
         public override void RemoveItem()
         {
+            if (_item != null)
+                _item.IsUsable = true;
+            
             _previewItem = null;
-            _itemIcon.sprite = null;
-            _itemIcon.gameObject.SetActive(false);
             _item = null;
+
+            CreatePreviewItem();
+            _craftGrid.SpendMaterials();
         }
 
         public override void OnDrop(PointerEventData eventData)
         { 
             // Cannot drop item here
             return;
-        }
-        
-        
-        public void CreateItem()
-        {
-            if (_previewItem == null) return;
-            
-            _item = Instantiate(_itemPrefab, transform.position, Quaternion.identity);
-            _item.SetUp(_previewItem, _craftCount);
-            _inventory.AddItem(_item);
         }
     }
 }

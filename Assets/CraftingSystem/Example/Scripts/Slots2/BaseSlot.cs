@@ -46,7 +46,6 @@ namespace CraftingSystem.Example.Slots2
             
             if (AddItem(item))
             {
-                item.SetSlot(this);
             }
         }
 

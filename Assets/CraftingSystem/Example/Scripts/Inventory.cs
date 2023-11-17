@@ -12,6 +12,8 @@ public class Inventory : MonoBehaviour
     [SerializeField] private GameObject GameItemPrefab;
     [SerializeField] private List<InventorItemAndCount> startItems;
 
+    public GameObject ItemPrefab => GameItemPrefab;
+    
     private void Awake()
     {
         //Read all itemSlots as children of inventory panel

@@ -24,6 +24,23 @@ namespace CraftingSystem.Example.Slots2
         
         private Inventory _inventory;
 
+        public bool IsUsable;
+        
+        public int Count
+        {
+            get => _count;
+            set
+            {
+                _count = value;
+                if (_count <= 0)
+                {
+                    Destroy(gameObject);
+                    return;
+                }
+                _itemCountText.text = _count.ToString();
+            }
+        }
+        
         private void Awake()
         {
             _inventory = FindObjectOfType<Inventory>();
@@ -43,22 +60,6 @@ namespace CraftingSystem.Example.Slots2
             if (_currentSlot != null)
             {
                 _currentSlot.RemoveItem();   
-            }
-        }
-
-
-        public int Count
-        {
-            get => _count;
-            set
-            {
-                _count = value;
-                if (_count <= 0)
-                {
-                    Destroy(gameObject);
-                    return;
-                }
-                _itemCountText.text = _count.ToString();
             }
         }
 
@@ -95,6 +96,8 @@ namespace CraftingSystem.Example.Slots2
         // Can be made public if needed 
         private void Use()
         {
+            if (!IsUsable) return;
+            
             _itemInfo.Use();
             if (_itemInfo.isConsumable)
             {
@@ -149,7 +152,7 @@ namespace CraftingSystem.Example.Slots2
                 if (_count > 1)
                 {
                     
-                    var newDraggableItem = Instantiate(gameObject, transform.position, Quaternion.identity).GetComponent<DragableItem>();
+                    var newDraggableItem = Instantiate(_inventory.ItemPrefab, transform.position, Quaternion.identity).GetComponent<DragableItem>();
                     newDraggableItem.SetUp(_itemInfo, _count - 1);
                     slot.AddItem(newDraggableItem);
                     newDraggableItem.GoToSlot();
