@@ -23,8 +23,16 @@ namespace CraftingSystem.Example.Slots2
         private BaseSlot _currentSlot;
         
         private Inventory _inventory;
-
-        [HideInInspector] public bool IsUsable = true;
+        
+        private bool _isUsable = true;
+        public bool IsUsable
+        {
+            get => _isUsable;
+            set
+            {
+                _isUsable = value;
+            }
+        }
         
         public int Count
         {
