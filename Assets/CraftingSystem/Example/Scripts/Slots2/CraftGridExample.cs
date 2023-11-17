@@ -1,7 +1,5 @@
-﻿using System;
-using CraftingSystem.Core;
+﻿using CraftingSystem.Core;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace CraftingSystem.Example.Slots2
 {
@@ -13,7 +11,7 @@ namespace CraftingSystem.Example.Slots2
         
         private RecipeBook _recipeBook;
 
-        private const int GridSize = 3;        
+        private int GridSize = 3;        
         
         private void Awake()
         {

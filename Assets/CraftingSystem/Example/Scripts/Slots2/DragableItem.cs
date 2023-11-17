@@ -24,7 +24,7 @@ namespace CraftingSystem.Example.Slots2
         
         private Inventory _inventory;
 
-        public bool IsUsable;
+        [HideInInspector] public bool IsUsable = true;
         
         public int Count
         {
