@@ -1,25 +1,21 @@
 ﻿using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-namespace CraftingSystem.Example
+namespace CraftingSystem.Example.Slots2
 {
-    public class ResultSlot : MonoBehaviour, IItemSlot
+    public class ResultSlot : BaseSlot
     {
-        public InventoryItem Item => _item;
-
-        private InventoryItem _item;
+        [SerializeField] private Image _itemIcon; 
+        [SerializeField] private DragableItem _itemPrefab;
+        
         private UseableItem _previewItem;
         
-        [SerializeField] private Image _itemIcon; 
-        
-        [SerializeField] private InventoryItem _itemPrefab;
-
         private TMP_Text _itemCountText;   
         
         private Inventory _inventory;
-
-        private int craftCount;
+        private int _craftCount;
         
         private void Awake()
         {
@@ -40,19 +36,12 @@ namespace CraftingSystem.Example
             
             _itemIcon.sprite = preview.icon;
             _itemIcon.gameObject.SetActive(true);
-            craftCount = count;
+            _craftCount = count;
             _itemCountText.gameObject.SetActive(true);
-            _itemCountText.text = craftCount.ToString();
-        
+            _itemCountText.text = _craftCount.ToString();
         }
 
-        public bool SetItem(InventoryItem item)
-        {
-            // read only slot, item set by other means
-            return false;
-        }
-
-        public void Clear()
+        public override void RemoveItem()
         {
             _previewItem = null;
             _itemIcon.sprite = null;
@@ -60,12 +49,19 @@ namespace CraftingSystem.Example
             _item = null;
         }
 
+        public override void OnDrop(PointerEventData eventData)
+        { 
+            // Cannot drop item here
+            return;
+        }
+        
+        
         public void CreateItem()
         {
             if (_previewItem == null) return;
             
             _item = Instantiate(_itemPrefab, transform.position, Quaternion.identity);
-            _item.SetUp(_previewItem, craftCount);
+            _item.SetUp(_previewItem, _craftCount);
             _inventory.AddItem(_item);
         }
     }

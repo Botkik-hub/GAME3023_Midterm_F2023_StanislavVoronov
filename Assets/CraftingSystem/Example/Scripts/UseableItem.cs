@@ -9,6 +9,7 @@ public class UseableItem : Item
     
     [TextArea]
     public string description = "";
+    
     public void Use()
     {
         Debug.Log("This is the Use() function of item: " + name + " - " + description);

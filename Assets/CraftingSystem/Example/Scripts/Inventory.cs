@@ -1,10 +1,11 @@
 using System.Collections.Generic;
 using CraftingSystem.Example;
+using CraftingSystem.Example.Slots2;
 using UnityEngine;
 
 public class Inventory : MonoBehaviour
 {
-    List<ItemSlot> itemSlots = new List<ItemSlot>();
+    List<BaseSlot> itemSlots = new List<BaseSlot>();
     [SerializeField]
     GameObject inventoryPanel;
     [Space] 
@@ -14,8 +15,8 @@ public class Inventory : MonoBehaviour
     private void Awake()
     {
         //Read all itemSlots as children of inventory panel
-        itemSlots = new List<ItemSlot>(
-            inventoryPanel.transform.GetComponentsInChildren<ItemSlot>()
+        itemSlots = new List<BaseSlot>(
+            inventoryPanel.transform.GetComponentsInChildren<BaseSlot>()
         );
     }
 
@@ -37,16 +38,17 @@ public class Inventory : MonoBehaviour
             }
             
             var gameItem = Instantiate(GameItemPrefab);
-            var inventoryItem = gameItem.GetComponent<InventoryItem>();
+            var inventoryItem = gameItem.GetComponent<DragableItem>();
             inventoryItem.SetUp(item.itemInfo, item.count);
-            itemSlots[slotIndex].SetItem(inventoryItem);
+            itemSlots[slotIndex].AddItem(inventoryItem);
             slotIndex++;
         }
     }
+
     
-    public void AddItem(InventoryItem item)
+    public void AddItem(DragableItem item)
     {
-        ItemSlot emptySlot = null;
+        BaseSlot emptySlot = null;
         
         foreach (var slot in itemSlots)
         {
@@ -59,19 +61,19 @@ public class Inventory : MonoBehaviour
 
             if (slot.Item.ItemInfo == item.ItemInfo)
             {
-                   slot.StackItems(item);
+                   slot.AddItem(item);
                    return;
             }
         }
         
-        if (emptySlot != null && emptySlot.SetItem(item))
+        if (emptySlot != null && emptySlot.AddItem(item))
         {
             return;
         }
         HandleInventoryFull(item);
     }
 
-    private void HandleInventoryFull(InventoryItem item)
+    private void HandleInventoryFull(DragableItem item)
     {
         // Do whatever with item,
         // for example, destroy it
@@ -87,7 +89,7 @@ public class Inventory : MonoBehaviour
             var item = itemSlot.Item;   
             if (item != null)
             {
-                item.ClearSlot();
+                itemSlot.RemoveItem();
                 startItems.Add(new InventorItemAndCount(item.ItemInfo, item.Count));
                 // Can be made more efficient by pooling items
                 Destroy(item.gameObject);

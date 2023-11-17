@@ -1,0 +1,5 @@
+﻿1. Slot adds items in itself
+2. item removes items from slot
+3. Inventory has all slots and handles items without slots
+4. Items can move to slots
+5. Items can stack itself with other items

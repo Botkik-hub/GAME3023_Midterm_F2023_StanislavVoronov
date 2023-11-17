@@ -1,4 +1,5 @@
 ﻿using CraftingSystem.Core;
+using CraftingSystem.Example.Slots2;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -6,11 +7,9 @@ namespace CraftingSystem.Example
 {
     public class CraftGridExample : MonoBehaviour  
     {
-        [SerializeField] private RecipeBook recipeBook;
-        
         [SerializeField] private CraftingSlot[] craftingSlots;
         
-        [SerializeField] private ResultSlot resultSlot;
+        private ResultSlot _resultSlot;
         
         
         private RecipeBook _recipeBook;
@@ -23,10 +22,8 @@ namespace CraftingSystem.Example
         
         private void Awake()
         {
+            _resultSlot = GetComponentInChildren<ResultSlot>();
             _recipeBook = FindObjectOfType<RecipeBook>();
-            craftingSlots = GetComponentsInChildren<CraftingSlot>();
-            resultSlot = GetComponentInChildren<ResultSlot>();
-            
             _craftButton = GetComponentInChildren<Button>();
             _craftButton.interactable = false;
         }
@@ -64,7 +61,7 @@ namespace CraftingSystem.Example
             
             var craftedItem = _recipeBook.CheckGridState(items, new Vector2Int(GridSize, GridSize), out int resultCount);
             
-            resultSlot.SetItem((UseableItem)craftedItem, resultCount);
+            _resultSlot.SetItem((UseableItem)craftedItem, resultCount);
             var hasItem = craftedItem != null;
             _hasItem = hasItem;
             _craftButton.interactable = hasItem;
@@ -74,7 +71,7 @@ namespace CraftingSystem.Example
         {
             if (!_hasItem) return;
             
-            resultSlot.CreateItem();
+            _resultSlot.CreateItem();
             
             foreach (var slot in craftingSlots)
             {
