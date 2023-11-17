@@ -23,7 +23,7 @@ namespace CraftingSystem.Example.Slots2
         private BaseSlot _currentSlot;
         
         private Inventory _inventory;
-        
+
         private void Awake()
         {
             _inventory = FindObjectOfType<Inventory>();
@@ -42,7 +42,7 @@ namespace CraftingSystem.Example.Slots2
             
             if (_currentSlot != null)
             {
-                _currentSlot.RemoveItem();
+                _currentSlot.RemoveItem();   
             }
         }
 
@@ -116,18 +116,48 @@ namespace CraftingSystem.Example.Slots2
             _rectTransform.anchoredPosition = Vector2.zero;
             _rectTransform.localScale = Vector3.one;
         }
-        
+
         public void OnBeginDrag(PointerEventData eventData)
         {
-            var tempParent = GameObject.FindGameObjectWithTag("TempParent");
-            if (tempParent == null)
-                throw new MissingReferenceException("TempParent not found, please add a GameObject with tag TempParent to the scene");
+            if (eventData.button == PointerEventData.InputButton.Left)
+            {
+                var tempParent = GameObject.FindGameObjectWithTag("TempParent");
+                if (tempParent == null)
+                    throw new MissingReferenceException(
+                        "TempParent not found, please add a GameObject with tag TempParent to the scene");
 
-            _rectTransform.SetParent(tempParent.transform);
-            
-            RemoveFromSlot();
-            
-            _itemIcon.raycastTarget = false;
+                _rectTransform.SetParent(tempParent.transform);
+
+                RemoveFromSlot();
+
+                _itemIcon.raycastTarget = false;
+                return;
+            }
+
+            if (eventData.button == PointerEventData.InputButton.Right)
+            {
+                //todo
+                var tempParent = GameObject.FindGameObjectWithTag("TempParent");
+                if (tempParent == null)
+                    throw new MissingReferenceException(
+                        "TempParent not found, please add a GameObject with tag TempParent to the scene");
+                _rectTransform.SetParent(tempParent.transform);
+
+                var slot = _currentSlot;
+                RemoveFromSlot();
+                
+                if (_count > 1)
+                {
+                    
+                    var newDraggableItem = Instantiate(gameObject, transform.position, Quaternion.identity).GetComponent<DragableItem>();
+                    newDraggableItem.SetUp(_itemInfo, _count - 1);
+                    slot.AddItem(newDraggableItem);
+                    newDraggableItem.GoToSlot();
+                    Count = 1;
+                }
+
+                _itemIcon.raycastTarget = false;
+            }
         }
 
         public void OnEndDrag(PointerEventData eventData)
