@@ -10,13 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1f253b68bc5f4b0cbce139c8871ce898, type: 3}
-  m_Name: New Recipe 1
+  m_Name: Planks
   m_EditorClassIdentifier: 
   ingredients:
-  - {fileID: 11400000, guid: 8edf88457d073c0468283afc8209338a, type: 2}
-  - {fileID: 11400000, guid: f2fcedea16104a444a1b572ef9e6654b, type: 2}
-  - {fileID: 0}
-  - {fileID: 0}
-  sizeOfGrid: {x: 2, y: 2}
-  result: {fileID: 11400000, guid: 78943ffd210465049bf5bf8c71af4234, type: 2}
-  resultCount: 1
+  - {fileID: 11400000, guid: b0811cbe05a71634c8c854391179e207, type: 2}
+  sizeOfGrid: {x: 1, y: 1}
+  result: {fileID: 11400000, guid: bbb0c783b0fe77448b6940fa3de9b28e, type: 2}
+  resultCount: 4

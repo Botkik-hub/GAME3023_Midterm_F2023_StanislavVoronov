@@ -12,17 +12,43 @@ namespace CraftingSystem.Core
         [SerializeField] private int resultCount = 1;
         
         private bool _isRecipeValid = false;
-        
+        private bool _isInitialized = false;
+
         //Used in game logic
-        private Recipe _recipe;        
-        public Recipe Recipe => _recipe;
-        public bool IsValid => _isRecipeValid;
+        private Recipe _recipe;
+
+        public Recipe Recipe {
+            get
+            {
+                if (!_isInitialized)
+                {
+                    CreateRecipe();
+                    _isInitialized= true;
+                }
+
+                return _recipe;
+            }
+        }
         
-        private void OnValidate()
+        public bool IsValid
+        {
+            get
+            {
+                if (!_isInitialized)
+                {
+                    CreateRecipe();
+                    _isInitialized= true;
+                }
+
+                return _isRecipeValid;
+            }
+        }
+        
+        private void CreateRecipe()
         {
             if (sizeOfGrid == Vector2Int.zero)
             {
-                Debug.LogError("Size of grid cannot be zero");
+                _isRecipeValid = false;
                 return;
             }
 

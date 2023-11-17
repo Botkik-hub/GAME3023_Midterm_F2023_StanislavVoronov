@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f253b68bc5f4b0cbce139c8871ce898, type: 3}
+  m_Name: Pickaxe
+  m_EditorClassIdentifier: 
+  ingredients:
+  - {fileID: 11400000, guid: bbb0c783b0fe77448b6940fa3de9b28e, type: 2}
+  - {fileID: 11400000, guid: bbb0c783b0fe77448b6940fa3de9b28e, type: 2}
+  - {fileID: 11400000, guid: bbb0c783b0fe77448b6940fa3de9b28e, type: 2}
+  - {fileID: 0}
+  - {fileID: 11400000, guid: 5db6ce380b3502048918e10b94ab1f78, type: 2}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 11400000, guid: 5db6ce380b3502048918e10b94ab1f78, type: 2}
+  - {fileID: 0}
+  sizeOfGrid: {x: 3, y: 3}
+  result: {fileID: 11400000, guid: aefa73846996f494193a7362b18a7025, type: 2}
+  resultCount: 1
