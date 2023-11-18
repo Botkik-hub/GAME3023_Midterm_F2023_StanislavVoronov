@@ -20,7 +20,7 @@ namespace CraftingSystem.Core
         public Recipe Recipe {
             get
             {
-                if (!_isInitialized)
+                if (Application.isEditor || !_isInitialized)
                 {
                     CreateRecipe();
                     _isInitialized= true;
@@ -34,7 +34,7 @@ namespace CraftingSystem.Core
         {
             get
             {
-                if (!_isInitialized)
+                if (Application.isEditor || !_isInitialized)
                 {
                     CreateRecipe();
                     _isInitialized= true;
