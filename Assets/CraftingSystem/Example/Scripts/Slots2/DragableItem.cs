@@ -8,9 +8,9 @@ namespace CraftingSystem.Example.Slots2
 {
     public class DragableItem : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragHandler
     {
-        private UseableItem _itemInfo;
+        private UsableItem _itemInfo;
         
-        public UseableItem ItemInfo => _itemInfo;
+        public UsableItem ItemInfo => _itemInfo;
 
         private Image _itemIcon;
         private RectTransform _rectTransform;
@@ -82,7 +82,7 @@ namespace CraftingSystem.Example.Slots2
             _currentSlot = null;
         }
         
-        public void SetUp(UseableItem itemInfo, int count)
+        public void SetUp(UsableItem itemInfo, int count)
         {
             _itemInfo = itemInfo;
             _itemIcon.sprite = _itemInfo.icon;  

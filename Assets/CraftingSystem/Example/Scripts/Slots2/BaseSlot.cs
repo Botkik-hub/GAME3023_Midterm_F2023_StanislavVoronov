@@ -7,7 +7,7 @@ namespace CraftingSystem.Example.Slots2
     public class BaseSlot : MonoBehaviour, IDropHandler
     {
         protected DragableItem _item = null;
-        public UseableItem ItemInfo => _item.ItemInfo;
+        public UsableItem ItemInfo => _item.ItemInfo;
         public DragableItem Item => _item;
         
         public virtual bool AddItem(DragableItem item)

@@ -5,10 +5,10 @@ namespace CraftingSystem.Example
     [Serializable]
     public class InventorItemAndCount
     {
-        public UseableItem itemInfo;
+        public UsableItem itemInfo;
         public int count;
         
-        public InventorItemAndCount(UseableItem itemInfo, int count)
+        public InventorItemAndCount(UsableItem itemInfo, int count)
         {
             this.itemInfo = itemInfo;
             this.count = count;

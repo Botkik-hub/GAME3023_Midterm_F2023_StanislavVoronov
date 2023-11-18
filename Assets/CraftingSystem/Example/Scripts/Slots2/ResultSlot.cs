@@ -10,7 +10,7 @@ namespace CraftingSystem.Example.Slots2
         
         private CraftGridExample _craftGrid;
         
-        private UseableItem _previewItem;
+        private UsableItem _previewItem;
         
         private Inventory _inventory;
         
@@ -46,7 +46,7 @@ namespace CraftingSystem.Example.Slots2
             _item.gameObject.SetActive(false);
         }
         
-        public void SetPreview(UseableItem preview, int count)
+        public void SetPreview(UsableItem preview, int count)
         {
             if (_inDestroyPocess) return;
             

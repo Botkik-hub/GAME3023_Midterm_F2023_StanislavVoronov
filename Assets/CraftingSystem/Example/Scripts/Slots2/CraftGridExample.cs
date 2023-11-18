@@ -55,7 +55,7 @@ namespace CraftingSystem.Example.Slots2
             
             var craftedItem = _recipeBook.CheckGridState(items, new Vector2Int(GridSize, GridSize), out int resultCount);
             
-            _resultSlot.SetPreview((UseableItem)craftedItem, resultCount);
+            _resultSlot.SetPreview((UsableItem)craftedItem, resultCount);
         }
 
         public void SpendMaterials()
