@@ -66,13 +66,26 @@ namespace CraftingSystem.Editor
                         EditorGUI.DrawRect(rect, Color.grey);
                         continue;
                     }
-                    var texture = item.icon.texture;
+                    var texCoords = item.icon.rect;
+                    var texture = GetCropedTexture(item.icon.texture, texCoords);
                     EditorGUI.DrawTextureTransparent(rect, texture);
                 }
                 EditorGUILayout.EndHorizontal(); 
             }
         }
 
+        private Texture2D GetCropedTexture(Texture2D origin, Rect textureRect)
+        {
+            var texture = new Texture2D((int)textureRect.width, (int)textureRect.height);
+            
+            Color[] originPixels = origin.GetPixels((int)textureRect.x, (int)textureRect.y, (int)textureRect.width, (int)textureRect.height);
+            
+            texture.SetPixels(originPixels);
+            texture.Apply();
+            
+            return texture;
+        }
+        
         public override Texture2D RenderStaticPreview(string assetPath, Object[] subAssets, int width, int height)
         {
             RecipeScriptable recipe = (RecipeScriptable)target;
@@ -81,10 +94,11 @@ namespace CraftingSystem.Editor
                                || recipe.Recipe.Result == null
                                || recipe.Recipe.Result.icon == null)
                 return null;
-            
-            Texture2D tex = new Texture2D (width, height);
-            EditorUtility.CopySerialized (recipe.Recipe.Result.icon.texture, tex);
 
+            var origin = recipe.Recipe.Result.icon;
+            var croped = GetCropedTexture(origin.texture, origin.textureRect);
+            Texture2D tex = new Texture2D (width, height);
+            EditorUtility.CopySerialized (croped, tex);
             return tex;
         }
     }
